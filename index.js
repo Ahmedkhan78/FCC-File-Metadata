@@ -1,25 +1,23 @@
 var express = require("express");
 var cors = require("cors");
-var multer = require("multer");
 require("dotenv").config();
 
 var app = express();
 
-app.use(cors({ origin: "*" })); // Enable CORS for all origins
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
+app.use(cors());
 app.use("/public", express.static(process.cwd() + "/public"));
 
-// Root route
 app.get("/", function (req, res) {
   res.sendFile(process.cwd() + "/views/index.html");
 });
 
-// Multer setup
-const upload = multer({ dest: "uploads/" }); // temporary folder
-
-// File upload route
-app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-
+app.post("/api/fileanalyse", upload.single("upfile"), function (req, res) {
+  // req.file is the name of your file in the form above, here 'uploaded_file'
+  // req.body will hold the text fields, if there were any
+  //console.log(req.file, req.body)
   res.json({
     name: req.file.originalname,
     type: req.file.mimetype,
@@ -27,7 +25,8 @@ app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
   });
 });
 
-// Start server
+//{"name":"Firefox Installer.exe","type":"application/x-msdownload","size":333984}
+
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("Your app is listening on port " + port);
