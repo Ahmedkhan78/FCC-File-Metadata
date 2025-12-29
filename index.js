@@ -2,11 +2,10 @@ var express = require("express");
 var cors = require("cors");
 require("dotenv").config();
 var app = express();
-app.use(cors({ origin: "*" })); // For FCC testing purposes only
-app.use("/public", express.static(process.cwd() + "/public"));
-
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
+app.use(cors({ origin: "*" })); // For FCC testing purposes only
+app.use("/public", express.static(process.cwd() + "/public"));
 
 app.get("/", function (req, res) {
   res.sendFile(process.cwd() + "/views/index.html");
