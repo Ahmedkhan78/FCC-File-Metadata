@@ -5,7 +5,7 @@ require("dotenv").config();
 
 var app = express();
 
-app.use(cors());
+app.use(cors({ origin: "*" })); // Enable CORS for all origins
 app.use("/public", express.static(process.cwd() + "/public"));
 
 // Root route
