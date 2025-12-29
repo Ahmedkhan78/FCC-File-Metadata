@@ -13,10 +13,19 @@ app.get("/", function (req, res) {
 });
 
 app.post("/api/fileanalyse", upload.single("upfile"), function (req, res) {
-  return res.json({
-    name: req.file.originalname,
-    type: req.file.mimetype,
-    size: req.file.size,
+  app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
+    if (!req.file) {
+      return res
+        .status(400)
+        .type("application/json")
+        .json({ error: "No file uploaded" });
+    }
+
+    res.status(200).type("application/json").json({
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      size: req.file.size,
+    });
   });
 });
 
