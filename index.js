@@ -2,7 +2,7 @@ var express = require("express");
 var cors = require("cors");
 require("dotenv").config();
 var app = express();
-app.use(cors());
+app.use(cors({ origin: "*" })); // For FCC testing purposes only
 app.use("/public", express.static(process.cwd() + "/public"));
 
 const multer = require("multer");
